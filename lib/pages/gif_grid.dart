@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../models/gif_data.dart';
@@ -27,18 +28,11 @@ class GifGrid extends StatelessWidget {
             elevation: 4,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: Image.network(
-                gif.filename,
+              child: CachedNetworkImage(
+                imageUrl: gif.filename,
                 fit: BoxFit.cover,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) {
-                    return AnimatedOpacity(opacity: 1.0, duration: Duration(milliseconds: 500), child: child);
-                  }
-                  return AnimatedOpacity(opacity: 0.0, duration: Duration(milliseconds: 500), child: SizedBox.shrink());
-                },
-                errorBuilder: (context, error, stackTrace) {
-                  return Center(child: Icon(Icons.error));
-                },
+                placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                errorWidget: (context, url, error) => Center(child: Icon(Icons.error)),
               ),
             ),
           ),
