@@ -27,10 +27,10 @@ class _GifGridState extends State<GifGrid> {
     return GridView.builder(
       itemCount: widget.gifs.length,
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-        maxCrossAxisExtent: 350,
+        maxCrossAxisExtent: 450,
         crossAxisSpacing: 4,
         mainAxisSpacing: 4,
-        childAspectRatio: 1.75,
+        childAspectRatio: 622 / 356,
       ),
       itemBuilder: (context, index) {
         final gif = widget.gifs[index];
@@ -40,22 +40,26 @@ class _GifGridState extends State<GifGrid> {
             final isHovered = hoveredIndex == index;
             final preloadedImage = Stack(
               children: [
-                CachedNetworkImage(
-                  imageUrl: gif.filename,
-                  fit: BoxFit.cover,
-                  placeholder: (context, url) => Center(child: CircularProgressIndicator()),
-                  errorWidget: (context, url, error) => Center(child: Icon(Icons.error)),
+                SizedBox.expand(
+                  child: CachedNetworkImage(
+                    imageUrl: gif.filename,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                    errorWidget: (context, url, error) => Center(child: Icon(Icons.error)),
+                  ),
                 ),
                 if (isHovered)
-                  Image.network(
-                    gif.filename,
-                    key: ValueKey(gif.filename),
-                    fit: BoxFit.cover,
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return Center(child: CircularProgressIndicator());
-                    },
-                    errorBuilder: (context, error, stackTrace) => Center(child: Icon(Icons.error)),
+                  SizedBox.expand(
+                    child: Image.network(
+                      gif.filename,
+                      key: ValueKey(gif.filename),
+                      fit: BoxFit.cover,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return Center(child: CircularProgressIndicator());
+                      },
+                      errorBuilder: (context, error, stackTrace) => Center(child: Icon(Icons.error)),
+                    ),
                   ),
               ],
             );
