@@ -4,7 +4,7 @@
     "editor.rulers": [150]
   },
   "editor.codeActionsOnSave": {
-    "source.fixAll": true
+    "source.fixAll": "explicit"
   },
   "cSpell.words": ["metrix", "gifs"],
   "cmake.ignoreCMakeListsMissing": true

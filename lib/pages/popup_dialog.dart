@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class PopupDialog {
-  static void show(BuildContext context, String filename, String bgColor, String textColor) {
+  static void show(BuildContext context, Widget preloadedImage, String bgColor, String textColor) {
     showDialog(
       context: context,
       barrierDismissible: true,
@@ -14,7 +14,7 @@ class PopupDialog {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Image.asset(filename, fit: BoxFit.contain, gaplessPlayback: true),
+                preloadedImage,
                 SizedBox(height: 20),
                 Text(
                   'BACKGROUND_COLOR: \'$bgColor\'\nTEXT_COLOR: \'$textColor\'',
