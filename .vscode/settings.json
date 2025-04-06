@@ -1,0 +1,11 @@
+{
+  "dart.lineLength": 150,
+  "[dart]": {
+    "editor.rulers": [150]
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "cSpell.words": ["metrix", "gifs"],
+  "cmake.ignoreCMakeListsMissing": true
+}
