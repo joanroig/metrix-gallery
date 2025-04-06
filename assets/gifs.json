@@ -1,0 +1,32 @@
+[
+    {
+        "color1": "aliceblue",
+        "color2": "antiquewhite",
+        "contrast": 1.09,
+        "types": [
+            "warm_cold",
+            "vivid_pair"
+        ]
+    },
+    {
+        "color1": "aliceblue",
+        "color2": "aqua",
+        "contrast": 1.17,
+        "types": [
+            "shade",
+            "analogous",
+            "same_family",
+            "cold_pair",
+            "vivid_pair"
+        ]
+    },
+    {
+        "color1": "aliceblue",
+        "color2": "aquamarine",
+        "contrast": 1.14,
+        "types": [
+            "cold_pair",
+            "vivid_pair"
+        ]
+    }
+] 
