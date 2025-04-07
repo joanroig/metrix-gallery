@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../models/gif_data.dart';
@@ -37,31 +36,18 @@ class _GifGridState extends State<GifGrid> {
         return ValueListenableBuilder<int?>(
           valueListenable: _hoveredIndex,
           builder: (context, hoveredIndex, child) {
-            final isHovered = hoveredIndex == index;
-            final preloadedImage = Stack(
-              children: [
-                SizedBox.expand(
-                  child: CachedNetworkImage(
-                    imageUrl: gif.filename,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => Center(child: CircularProgressIndicator()),
-                    errorWidget: (context, url, error) => Center(child: Icon(Icons.error)),
-                  ),
-                ),
-                if (isHovered)
-                  SizedBox.expand(
-                    child: Image.network(
-                      gif.filename,
-                      key: ValueKey(gif.filename),
-                      fit: BoxFit.cover,
-                      loadingBuilder: (context, child, loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return Center(child: CircularProgressIndicator());
-                      },
-                      errorBuilder: (context, error, stackTrace) => Center(child: Icon(Icons.error)),
-                    ),
-                  ),
-              ],
+            final preloadedImage = Image.asset(
+              gif.filename,
+              key: ValueKey(gif.filename),
+              fit: BoxFit.cover,
+              frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                if (wasSynchronouslyLoaded) return child;
+                return AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 500),
+                  child: frame != null ? child : const CircularProgressIndicator(),
+                );
+              },
+              errorBuilder: (context, error, stackTrace) => Center(child: Icon(Icons.error)),
             );
 
             return MouseRegion(
@@ -69,18 +55,7 @@ class _GifGridState extends State<GifGrid> {
               onExit: (_) => _hoveredIndex.value = null,
               child: GestureDetector(
                 onTap: () {
-                  final imageToShow =
-                      preloadedImage is Image
-                          ? preloadedImage
-                          : Image.network(
-                            gif.filename,
-                            fit: BoxFit.cover,
-                            loadingBuilder: (context, child, loadingProgress) {
-                              if (loadingProgress == null) return child;
-                              return Center(child: CircularProgressIndicator());
-                            },
-                            errorBuilder: (context, error, stackTrace) => Center(child: Icon(Icons.error)),
-                          );
+                  final imageToShow = preloadedImage;
                   PopupDialog.show(context, imageToShow, gif.bgColor, gif.textColor);
                 },
                 child: Card(
