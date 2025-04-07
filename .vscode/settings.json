@@ -6,6 +6,6 @@
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit"
   },
-  "cSpell.words": ["metrix", "gifs"],
+  "cSpell.words": ["gifs", "metrix", "prefs"],
   "cmake.ignoreCMakeListsMissing": true
 }
