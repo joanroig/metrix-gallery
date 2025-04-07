@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../models/gif_data.dart';
 import '../widgets/filter_bar.dart';
@@ -143,12 +144,17 @@ class GifGalleryPageState extends State<GifGalleryPage> {
       appBar: AppBar(
         title: Row(
           children: [
-            AnimatedSwitcher(
-              duration: Duration(milliseconds: 100),
-              child:
-                  _isAppIconLoaded
-                      ? Image.asset(appIcon, height: 24, key: ValueKey(appIcon))
-                      : SizedBox(height: 24, width: 24, key: ValueKey('placeholderIcon')),
+            GestureDetector(
+              onTap: () {
+                launchUrl(Uri.parse('https://github.com/joanroig/metrix'));
+              },
+              child: AnimatedSwitcher(
+                duration: Duration(milliseconds: 100),
+                child:
+                    _isAppIconLoaded
+                        ? Image.asset(appIcon, height: 24, key: ValueKey(appIcon))
+                        : SizedBox(height: 24, width: 24, key: ValueKey('placeholderIcon')),
+              ),
             ),
             SizedBox(width: 8),
             Text('Metrix Gallery (${filteredGifs.length} results)'),

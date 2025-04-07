@@ -1,16 +1,47 @@
-# metrix_gallery
+<p align="center">
+  <a href="https://github.com/joanroig/metrix-gallery">
+      <img alt="Metrix Gallery logo" src="web/icons/Icon-192.png" width="140px">
+  </a>
+</p>
+<h1 align="center">Metrix Gallery</h1>
+<p align="center">Metrix Gallery is a Flutter app designed to showcase and help choosing the best color combinations for <a href="https://github.com/joanroig/metrix">Metrix</a>.</p>
 
-A new Flutter project.
+## Features
 
-## Getting Started
+- Interactive gallery to explore over 20.000 color combinations.
+- Easy-to-use interface built with Flutter.
+- Fully responsive design for desktop and mobile.
 
-This project is a starting point for a Flutter application.
+## Usage Guide
 
-A few resources to get you started if this is your first Flutter project:
+The live view is available at [Metrix Gallery](https://joanroig.github.io/metrix-gallery/).
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Development Setup
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Ensure you have Flutter installed. Follow the official [Flutter installation guide](https://flutter.dev/docs/get-started/install).
+2. Use Visual Studio Code for development and set up the recommended run configuration for Flutter projects.
+
+3. Clone the repository:
+   ```bash
+   git clone https://github.com/joanroig/metrix-gallery.git
+   ```
+4. Navigate to the project directory:
+   ```bash
+   cd metrix-gallery
+   ```
+5. Install dependencies:
+   ```bash
+   flutter pub get
+   ```
+6. Run the project:
+   ```bash
+   flutter run
+   ```
+
+## Credits
+
+Theme file generated with: [material-theme-builder](https://material-foundation.github.io/material-theme-builder/).
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
