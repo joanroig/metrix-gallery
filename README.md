@@ -1,10 +1,16 @@
 <p align="center">
-  <a href="https://github.com/joanroig/metrix-gallery">
+  <a href="https://joanroig.github.io/metrix-gallery">
       <img alt="Metrix Gallery logo" src="web/icons/Icon-192.png" width="140px">
   </a>
 </p>
-<h1 align="center">Metrix Gallery</h1>
-<p align="center">Metrix Gallery is a Flutter app designed to showcase and help choosing the best color combinations for <a href="https://github.com/joanroig/metrix">Metrix</a>.</p>
+<h1 align="center"><a href="https://joanroig.github.io/metrix-gallery">Metrix Gallery</a></h1>
+<p align="center">Metrix Gallery is a Flutter app hosted on <a href="https://joanroig.github.io/metrix-gallery">GitHub Pages</a> designed to showcase and help choosing the best color combinations for <a href="https://github.com/joanroig/metrix">Metrix</a>.</p>
+
+<p align="center">
+<a href="https://joanroig.github.io/metrix-gallery">
+  <img alt="Showcase" src="showcase.gif">
+  </a>
+</p>
 
 ## Features
 
@@ -14,7 +20,11 @@
 
 ## Usage Guide
 
-The live view is available at [Metrix Gallery](https://joanroig.github.io/metrix-gallery/).
+The live view is available at [Metrix Gallery](https://joanroig.github.io/metrix-gallery).
+
+Choose one theme and paste the colors on your [Metrix GitHub Action](https://github.com/joanroig/metrix/blob/main/.github/workflows/metrix-complete.yml).
+
+Still don't have one? Follow the complete [Metrix setup](https://github.com/joanroig/metrix?tab=readme-ov-file#usage-guide).
 
 ## Development Setup
 
