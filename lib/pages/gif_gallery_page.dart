@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../main.dart';
 import '../models/gif_data.dart';
 import '../widgets/filter_bar.dart';
 import '../widgets/gif_grid.dart';
@@ -12,8 +13,9 @@ import '../widgets/gif_grid.dart';
 class GifGalleryPage extends StatefulWidget {
   final void Function(ThemeMode) onThemeModeChanged;
   final void Function(int) onContrastLevelChanged;
+  final ThemeSettings themeSettings;
 
-  const GifGalleryPage({super.key, required this.onThemeModeChanged, required this.onContrastLevelChanged});
+  const GifGalleryPage({super.key, required this.onThemeModeChanged, required this.onContrastLevelChanged, required this.themeSettings});
 
   @override
   GifGalleryPageState createState() => GifGalleryPageState();
@@ -42,6 +44,7 @@ class GifGalleryPageState extends State<GifGalleryPage> {
   late FocusNode maxContrastFocusNode;
 
   bool _isAppIconLoaded = false;
+  bool _isHovering = false; // New state variable for hover effect
 
   @override
   void initState() {
@@ -142,48 +145,159 @@ class GifGalleryPageState extends State<GifGalleryPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          children: [
-            GestureDetector(
-              onTap: () {
-                launchUrl(Uri.parse('https://github.com/joanroig/metrix'));
-              },
-              child: AnimatedSwitcher(
-                duration: Duration(milliseconds: 100),
-                child:
-                    _isAppIconLoaded
-                        ? Image.asset(appIcon, height: 24, key: ValueKey(appIcon))
-                        : SizedBox(height: 24, width: 24, key: ValueKey('placeholderIcon')),
-              ),
-            ),
-            SizedBox(width: 8),
-            Text('Metrix Gallery (${filteredGifs.length} results)'),
-            Spacer(),
-            IconButton(
-              icon: Icon(isDarkMode ? Icons.brightness_4_sharp : Icons.brightness_7),
-              onPressed: () async {
-                final selectedMode = await showMenu<dynamic>(
-                  context: context,
-                  position: RelativeRect.fromLTRB(1000, 56, 0, 0),
-                  items: [
-                    PopupMenuItem(value: ThemeMode.system, child: Text('System Default')),
-                    PopupMenuItem(value: ThemeMode.light, child: Text('Light Mode')),
-                    PopupMenuItem(value: ThemeMode.dark, child: Text('Dark Mode')),
-                    PopupMenuDivider(),
-                    PopupMenuItem(value: 0, child: Row(children: [Icon(Icons.brightness_low_sharp), SizedBox(width: 8), Text('Normal Contrast')])),
-                    PopupMenuItem(value: 1, child: Row(children: [Icon(Icons.brightness_6_sharp), SizedBox(width: 8), Text('Medium Contrast')])),
-                    PopupMenuItem(value: 2, child: Row(children: [Icon(Icons.brightness_high_sharp), SizedBox(width: 8), Text('High Contrast')])),
-                  ],
-                );
+        title: LayoutBuilder(
+          builder: (context, constraints) {
+            final isSmallScreen = constraints.maxWidth < 400;
+            return Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    launchUrl(Uri.parse('https://github.com/joanroig/metrix-gallery'));
+                  },
+                  child: AnimatedSwitcher(
+                    duration: Duration(milliseconds: 100),
+                    child:
+                        _isAppIconLoaded
+                            ? MouseRegion(
+                              cursor: SystemMouseCursors.click,
+                              onEnter: (_) => setState(() => _isHovering = true),
+                              onExit: (_) => setState(() => _isHovering = false),
+                              child: Tooltip(
+                                message: 'Metrix Gallery Repository',
+                                child: AnimatedContainer(
+                                  duration: Duration(milliseconds: 150),
+                                  transform:
+                                      _isHovering
+                                          ? (Matrix4.identity()
+                                            ..translate(-1.2, -1.2, 0.0)
+                                            ..scale(1.1))
+                                          : Matrix4.identity(),
+                                  child: Image.asset(appIcon, height: 24, key: ValueKey(appIcon)),
+                                ),
+                              ),
+                            )
+                            : SizedBox(height: 24, width: 24, key: ValueKey('placeholderIcon')),
+                  ),
+                ),
+                SizedBox(width: 8),
+                Text(isSmallScreen ? 'Metrix Gallery' : 'Metrix Gallery (${filteredGifs.length} results)'),
+                Spacer(),
+                IconButton(
+                  icon: Icon(Icons.code_sharp),
+                  tooltip: 'Metrix Repository',
+                  onPressed: () {
+                    launchUrl(Uri.parse('https://github.com/joanroig/metrix?tab=readme-ov-file#metrix'));
+                  },
+                ),
+                IconButton(
+                  icon: Icon(isDarkMode ? Icons.dark_mode_sharp : Icons.light_mode_sharp),
+                  tooltip: 'Theme Settings',
+                  onPressed: () async {
+                    // Use theme settings from widget parameter
+                    final currentThemeSettings = widget.themeSettings;
 
-                if (selectedMode is ThemeMode) {
-                  widget.onThemeModeChanged(selectedMode);
-                } else if (selectedMode is int) {
-                  widget.onContrastLevelChanged(selectedMode);
-                }
-              },
-            ),
-          ],
+                    final selectedMode = await showMenu<dynamic>(
+                      context: context,
+                      position: RelativeRect.fromLTRB(1000, 56, 0, 0),
+                      items: [
+                        PopupMenuItem(
+                          value: ThemeMode.system,
+                          child: Row(
+                            children: [
+                              Icon(Icons.brightness_auto_sharp),
+                              SizedBox(width: 8),
+                              Text(
+                                'System Default',
+                                style: TextStyle(
+                                  fontWeight: currentThemeSettings.themeMode == ThemeMode.system ? FontWeight.bold : FontWeight.normal,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        PopupMenuItem(
+                          value: ThemeMode.light,
+                          child: Row(
+                            children: [
+                              Icon(Icons.light_mode_sharp),
+                              SizedBox(width: 8),
+                              Text(
+                                'Light Mode',
+                                style: TextStyle(fontWeight: currentThemeSettings.themeMode == ThemeMode.light ? FontWeight.bold : FontWeight.normal),
+                              ),
+                            ],
+                          ),
+                        ),
+                        PopupMenuItem(
+                          value: ThemeMode.dark,
+                          child: Row(
+                            children: [
+                              Icon(Icons.dark_mode_sharp),
+                              SizedBox(width: 8),
+                              Text(
+                                'Dark Mode',
+                                style: TextStyle(fontWeight: currentThemeSettings.themeMode == ThemeMode.dark ? FontWeight.bold : FontWeight.normal),
+                              ),
+                            ],
+                          ),
+                        ),
+                        PopupMenuDivider(),
+                        PopupMenuItem(
+                          value: 0,
+                          child: Row(
+                            children: [
+                              Icon(Icons.brightness_low_sharp),
+                              SizedBox(width: 8),
+                              Text(
+                                'Low Contrast',
+                                style: TextStyle(fontWeight: currentThemeSettings.contrastLevel == 0 ? FontWeight.bold : FontWeight.normal),
+                              ),
+                            ],
+                          ),
+                        ),
+                        PopupMenuItem(
+                          value: 1,
+                          child: Row(
+                            children: [
+                              Icon(Icons.brightness_6_sharp),
+                              SizedBox(width: 8),
+                              Text(
+                                'Medium Contrast',
+                                style: TextStyle(fontWeight: currentThemeSettings.contrastLevel == 1 ? FontWeight.bold : FontWeight.normal),
+                              ),
+                            ],
+                          ),
+                        ),
+                        PopupMenuItem(
+                          value: 2,
+                          child: Row(
+                            children: [
+                              Icon(Icons.brightness_high_sharp),
+                              SizedBox(width: 8),
+                              Text(
+                                'High Contrast',
+                                style: TextStyle(fontWeight: currentThemeSettings.contrastLevel == 2 ? FontWeight.bold : FontWeight.normal),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    );
+
+                    if (selectedMode is ThemeMode) {
+                      widget.onThemeModeChanged(selectedMode);
+                      // Force a rebuild to apply theme changes immediately
+                      setState(() {});
+                    } else if (selectedMode is int) {
+                      widget.onContrastLevelChanged(selectedMode);
+                      // Force a rebuild to apply contrast changes immediately
+                      setState(() {});
+                    }
+                  },
+                ),
+              ],
+            );
+          },
         ),
       ),
       body: AnimatedSwitcher(
@@ -251,7 +365,10 @@ class GifGalleryPageState extends State<GifGalleryPage> {
                       },
                     ),
                     Expanded(
-                      child: AnimatedSwitcher(duration: Duration(milliseconds: 300), child: GifGrid(gifs: filteredGifs, key: ValueKey('gifGrid'))),
+                      child: AnimatedSwitcher(
+                        duration: Duration(milliseconds: 300),
+                        child: MouseRegion(cursor: SystemMouseCursors.click, child: GifGrid(gifs: filteredGifs, key: ValueKey('gifGrid'))),
+                      ),
                     ),
                   ],
                 )

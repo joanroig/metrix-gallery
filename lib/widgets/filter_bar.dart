@@ -49,12 +49,14 @@ class FilterBar extends StatefulWidget {
 class FilterBarState extends State<FilterBar> {
   bool _isExpanded = false;
 
-  @override
-  Widget build(BuildContext context) {
-    final isMobile = MediaQuery.of(context).size.width < 600;
+  late FocusNode minContrastFocusNode;
+  late FocusNode maxContrastFocusNode;
 
-    final FocusNode minContrastFocusNode = FocusNode();
-    final FocusNode maxContrastFocusNode = FocusNode();
+  @override
+  void initState() {
+    super.initState();
+    minContrastFocusNode = FocusNode();
+    maxContrastFocusNode = FocusNode();
 
     minContrastFocusNode.addListener(() {
       if (!minContrastFocusNode.hasFocus) {
@@ -77,54 +79,83 @@ class FilterBarState extends State<FilterBar> {
         }
       }
     });
+  }
+
+  @override
+  void dispose() {
+    minContrastFocusNode.dispose();
+    maxContrastFocusNode.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 600;
 
     if (isMobile) {
       return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ExpansionPanelList(
-          expansionCallback: (int index, bool isExpanded) {
-            setState(() {
-              _isExpanded = !_isExpanded;
-            });
-          },
-          children: [
-            ExpansionPanel(
-              canTapOnHeader: true,
-              headerBuilder: (BuildContext context, bool isExpanded) {
-                return ListTile(title: Text('Filters'));
-              },
-              body: Padding(
-                padding: const EdgeInsets.only(top: 6.0), // Added padding to prevent label cutoff
-                child: Wrap(
-                  alignment: WrapAlignment.start,
-                  spacing: 16,
-                  runSpacing: 8,
-                  children: [
-                    SizedBox(
-                      width: double.infinity,
-                      child: _buildDropdown('Background Color', widget.selectedBgColor, widget.bgColors, widget.onBgColorChanged),
-                    ),
-                    SizedBox(
-                      width: double.infinity,
-                      child: _buildDropdown('Text Color', widget.selectedTextColor, widget.textColors, widget.onTextColorChanged),
-                    ),
-                    SizedBox(width: double.infinity, child: _buildDropdown('Type', widget.selectedType, widget.types, widget.onTypeChanged)),
-                    SizedBox(width: double.infinity, child: _buildSortDropdown()),
-                    SizedBox(width: double.infinity, child: _buildContrastSlider()),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(minimumSize: Size(double.infinity, 56)),
-                        onPressed: widget.onResetFilters,
-                        child: Text('Reset Filters'),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+        child: Card(
+          elevation: 2,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          clipBehavior: Clip.antiAlias,
+          child: ExpansionPanelList(
+            expansionCallback: (int index, bool isExpanded) {
+              setState(() {
+                _isExpanded = !_isExpanded;
+              });
+            },
+            elevation: 0,
+            dividerColor: Colors.transparent,
+            expandedHeaderPadding: EdgeInsets.zero,
+            children: [
+              ExpansionPanel(
+                canTapOnHeader: true,
+                headerBuilder: (BuildContext context, bool isExpanded) {
+                  return ListTile(
+                    title: Text('Filters', style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary)),
+                    leading: Icon(Icons.filter_list, color: Theme.of(context).colorScheme.primary),
+                  );
+                },
+                backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
+                body: Padding(
+                  padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
+                  child: Wrap(
+                    alignment: WrapAlignment.start,
+                    spacing: 16,
+                    runSpacing: 12,
+                    children: [
+                      SizedBox(
+                        width: double.infinity,
+                        child: _buildDropdown('Background Color', widget.selectedBgColor, widget.bgColors, widget.onBgColorChanged),
                       ),
-                    ),
-                  ],
+                      SizedBox(
+                        width: double.infinity,
+                        child: _buildDropdown('Text Color', widget.selectedTextColor, widget.textColors, widget.onTextColorChanged),
+                      ),
+                      SizedBox(width: double.infinity, child: _buildDropdown('Type', widget.selectedType, widget.types, widget.onTypeChanged)),
+                      SizedBox(width: double.infinity, child: _buildSortDropdown()),
+                      SizedBox(width: double.infinity, child: _buildContrastSlider()),
+                      SizedBox(height: 8),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: Size(double.infinity, 56),
+                            backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                            foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+                          ),
+                          onPressed: widget.onResetFilters,
+                          child: Text('Reset Filters', style: TextStyle(fontWeight: FontWeight.bold)),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
+                isExpanded: _isExpanded,
               ),
-              isExpanded: _isExpanded,
-            ),
-          ],
+            ],
+          ),
         ),
       );
     }
@@ -132,7 +163,7 @@ class FilterBarState extends State<FilterBar> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Wrap(
-        alignment: WrapAlignment.start,
+        alignment: WrapAlignment.center,
         spacing: 16,
         runSpacing: 8,
         children: [
@@ -144,9 +175,13 @@ class FilterBarState extends State<FilterBar> {
           SizedBox(
             width: 220,
             child: ElevatedButton(
-              style: ElevatedButton.styleFrom(minimumSize: Size(double.infinity, 56)),
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(double.infinity, 56),
+                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+              ),
               onPressed: widget.onResetFilters,
-              child: Text('Reset Filters'),
+              child: Text('Reset Filters', style: TextStyle(fontWeight: FontWeight.bold)),
             ),
           ),
         ],
@@ -256,6 +291,7 @@ class FilterBarState extends State<FilterBar> {
             width: 50,
             child: TextField(
               controller: widget.minContrastController,
+              focusNode: minContrastFocusNode,
               keyboardType: TextInputType.numberWithOptions(decimal: true),
               decoration: InputDecoration(
                 labelText: 'Min',
@@ -263,6 +299,14 @@ class FilterBarState extends State<FilterBar> {
                 border: InputBorder.none,
                 focusedBorder: InputBorder.none,
               ),
+              onSubmitted: (value) {
+                final parsedValue = double.tryParse(value);
+                if (parsedValue != null && parsedValue >= 1.00 && parsedValue <= widget.maxContrast) {
+                  widget.onContrastChanged(RangeValues(parsedValue, widget.maxContrast));
+                } else {
+                  widget.minContrastController.text = widget.minContrast.toStringAsFixed(2);
+                }
+              },
             ),
           ),
           SizedBox(width: 8),
@@ -270,6 +314,7 @@ class FilterBarState extends State<FilterBar> {
             width: 50,
             child: TextField(
               controller: widget.maxContrastController,
+              focusNode: maxContrastFocusNode,
               keyboardType: TextInputType.numberWithOptions(decimal: true),
               decoration: InputDecoration(
                 labelText: 'Max',
@@ -277,6 +322,14 @@ class FilterBarState extends State<FilterBar> {
                 border: InputBorder.none,
                 focusedBorder: InputBorder.none,
               ),
+              onSubmitted: (value) {
+                final parsedValue = double.tryParse(value);
+                if (parsedValue != null && parsedValue <= 21.00 && parsedValue >= widget.minContrast) {
+                  widget.onContrastChanged(RangeValues(widget.minContrast, parsedValue));
+                } else {
+                  widget.maxContrastController.text = widget.maxContrast.toStringAsFixed(2);
+                }
+              },
             ),
           ),
         ],

@@ -6,6 +6,7 @@ class MaterialTheme {
 
   const MaterialTheme(this.textTheme);
 
+  // Normal contrast light scheme
   static ColorScheme lightScheme() {
     return const ColorScheme(
       brightness: Brightness.light,
@@ -61,6 +62,7 @@ class MaterialTheme {
     return theme(lightScheme());
   }
 
+  // Medium contrast light scheme with more distinct colors
   static ColorScheme lightMediumContrastScheme() {
     return const ColorScheme(
       brightness: Brightness.light,
@@ -82,33 +84,33 @@ class MaterialTheme {
       errorContainer: Color(0xffcf2c27),
       onErrorContainer: Color(0xffffffff),
       surface: Color(0xfffcf8f8),
-      onSurface: Color(0xff111111),
-      onSurfaceVariant: Color(0xff333738),
-      outline: Color(0xff4f5354),
-      outlineVariant: Color(0xff6a6e6e),
+      onSurface: Color(0xff000000), // Darker text for more contrast
+      onSurfaceVariant: Color(0xff2b2c2c), // Darker variant text
+      outline: Color(0xff5a5e5e), // Darker outlines
+      outlineVariant: Color(0xff7a7e7e),
       shadow: Color(0xff000000),
       scrim: Color(0xff000000),
       inverseSurface: Color(0xff313030),
       inversePrimary: Color(0xffc6c6c6),
-      primaryFixed: Color(0xff6c6d6d),
+      primaryFixed: Color(0xff48494a),
       onPrimaryFixed: Color(0xffffffff),
-      primaryFixedDim: Color(0xff535555),
+      primaryFixedDim: Color(0xff313333),
       onPrimaryFixedVariant: Color(0xffffffff),
-      secondaryFixed: Color(0xff6d6d6d),
+      secondaryFixed: Color(0xff494949),
       onSecondaryFixed: Color(0xffffffff),
-      secondaryFixedDim: Color(0xff555555),
+      secondaryFixedDim: Color(0xff323333),
       onSecondaryFixedVariant: Color(0xffffffff),
-      tertiaryFixed: Color(0xff6f6c6e),
+      tertiaryFixed: Color(0xff4b484a),
       onTertiaryFixed: Color(0xffffffff),
-      tertiaryFixedDim: Color(0xff565456),
+      tertiaryFixedDim: Color(0xff343234),
       onTertiaryFixedVariant: Color(0xffffffff),
-      surfaceDim: Color(0xffc9c6c5),
+      surfaceDim: Color(0xffbbb8b7),
       surfaceBright: Color(0xfffcf8f8),
       surfaceContainerLowest: Color(0xffffffff),
-      surfaceContainerLow: Color(0xfff6f3f2),
-      surfaceContainer: Color(0xffebe7e7),
-      surfaceContainerHigh: Color(0xffdfdcdb),
-      surfaceContainerHighest: Color(0xffd4d1d0),
+      surfaceContainerLow: Color(0xfff4f0ef),
+      surfaceContainer: Color(0xffe5e2e1),
+      surfaceContainerHigh: Color(0xffd7d4d3),
+      surfaceContainerHighest: Color(0xffc9c6c5),
     );
   }
 
@@ -116,10 +118,11 @@ class MaterialTheme {
     return theme(lightMediumContrastScheme());
   }
 
+  // High contrast light scheme with very distinct colors
   static ColorScheme lightHighContrastScheme() {
     return const ColorScheme(
       brightness: Brightness.light,
-      primary: Color(0xff2b2c2d),
+      primary: Color(0xff000000), // Black for maximum contrast
       surfaceTint: Color(0xff5d5f5f),
       onPrimary: Color(0xffffffff),
       primaryContainer: Color(0xff48494a),
@@ -137,9 +140,9 @@ class MaterialTheme {
       errorContainer: Color(0xff98000a),
       onErrorContainer: Color(0xffffffff),
       surface: Color(0xfffcf8f8),
-      onSurface: Color(0xff000000),
-      onSurfaceVariant: Color(0xff000000),
-      outline: Color(0xff292d2d),
+      onSurface: Color(0xff000000), // Pure black text on light background
+      onSurfaceVariant: Color(0xff000000), // Black variant text too
+      outline: Color(0xff292d2d), // Very dark outlines
       outlineVariant: Color(0xff464a4a),
       shadow: Color(0xff000000),
       scrim: Color(0xff000000),
@@ -171,6 +174,7 @@ class MaterialTheme {
     return theme(lightHighContrastScheme());
   }
 
+  // Normal contrast dark scheme
   static ColorScheme darkScheme() {
     return const ColorScheme(
       brightness: Brightness.dark,
@@ -226,6 +230,7 @@ class MaterialTheme {
     return theme(darkScheme());
   }
 
+  // Medium contrast dark scheme with more distinct colors
   static ColorScheme darkMediumContrastScheme() {
     return const ColorScheme(
       brightness: Brightness.dark,
@@ -247,9 +252,9 @@ class MaterialTheme {
       errorContainer: Color(0xffff5449),
       onErrorContainer: Color(0xff000000),
       surface: Color(0xff141313),
-      onSurface: Color(0xffffffff),
-      onSurfaceVariant: Color(0xffdadddd),
-      outline: Color(0xffafb2b3),
+      onSurface: Color(0xffffffff), // Pure white text on dark background
+      onSurfaceVariant: Color(0xffdadddd), // Lighter variant text
+      outline: Color(0xffcacecf), // Much brighter outlines for contrast
       outlineVariant: Color(0xff8d9191),
       shadow: Color(0xff000000),
       scrim: Color(0xff000000),
@@ -281,10 +286,11 @@ class MaterialTheme {
     return theme(darkMediumContrastScheme());
   }
 
+  // High contrast dark scheme with very distinct colors
   static ColorScheme darkHighContrastScheme() {
     return const ColorScheme(
       brightness: Brightness.dark,
-      primary: Color(0xfffcfcfb),
+      primary: Color(0xffffffff), // Pure white for maximum contrast
       surfaceTint: Color(0xffc6c6c6),
       onPrimary: Color(0xff000000),
       primaryContainer: Color(0xffdfdfdf),
@@ -301,10 +307,10 @@ class MaterialTheme {
       onError: Color(0xff000000),
       errorContainer: Color(0xffffaea4),
       onErrorContainer: Color(0xff220001),
-      surface: Color(0xff141313),
-      onSurface: Color(0xffffffff),
-      onSurfaceVariant: Color(0xffffffff),
-      outline: Color(0xffeef0f1),
+      surface: Color(0xff141313), // Keep dark background
+      onSurface: Color(0xffffffff), // Pure white text for maximum contrast
+      onSurfaceVariant: Color(0xffffffff), // Also white variant text
+      outline: Color(0xffeef0f1), // Very bright outlines
       outlineVariant: Color(0xffc0c3c4),
       shadow: Color(0xff000000),
       scrim: Color(0xff000000),

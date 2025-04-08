@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../models/gif_data.dart';
 import '../dialogs/popup_dialog.dart';
+import '../models/gif_data.dart';
 
 class GifGrid extends StatefulWidget {
   final List<GifData> gifs;
@@ -23,13 +23,14 @@ class GifGridState extends State<GifGrid> {
 
   @override
   Widget build(BuildContext context) {
+    final aspectRatio = 622 / 356;
     return GridView.builder(
       itemCount: widget.gifs.length,
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
         maxCrossAxisExtent: 450,
-        crossAxisSpacing: 4,
-        mainAxisSpacing: 4,
-        childAspectRatio: 622 / 356,
+        crossAxisSpacing: 0,
+        mainAxisSpacing: 2,
+        childAspectRatio: aspectRatio,
       ),
       itemBuilder: (context, index) {
         final gif = widget.gifs[index];
@@ -46,7 +47,7 @@ class GifGridState extends State<GifGrid> {
                   if (wasSynchronouslyLoaded) return child;
                   return AnimatedSwitcher(
                     duration: const Duration(milliseconds: 500),
-                    child: frame != null ? child : AspectRatio(aspectRatio: 622 / 356, child: Center(child: const CircularProgressIndicator())),
+                    child: frame != null ? child : AspectRatio(aspectRatio: aspectRatio, child: Center(child: const CircularProgressIndicator())),
                   );
                 },
                 errorBuilder: (context, error, stackTrace) => Center(child: Icon(Icons.error)),
@@ -61,43 +62,49 @@ class GifGridState extends State<GifGrid> {
                   final imageToShow = preloadedImage;
                   PopupDialog.show(context, imageToShow, gif.bgColor, gif.textColor, gif.contrast, gif.types);
                 },
-                child: Stack(
-                  children: [
-                    Card(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), elevation: 4, child: preloadedImage),
-                    if (hoveredIndex == index)
+                child: Center(
+                  child: Stack(
+                    children: [
+                      Card(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), elevation: 4, child: preloadedImage),
                       Positioned(
-                        bottom: 8,
-                        left: 8,
-                        right: 14,
-                        child: Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.95),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          constraints: BoxConstraints(maxHeight: 100),
-                          child: Text.rich(
-                            TextSpan(
-                              children: [
-                                TextSpan(text: 'Background: ', style: const TextStyle(fontWeight: FontWeight.bold)),
-                                TextSpan(text: '${gif.bgColor}\n'),
-                                TextSpan(text: 'Text: ', style: const TextStyle(fontWeight: FontWeight.bold)),
-                                TextSpan(text: '${gif.textColor}\n'),
-                                TextSpan(text: 'Contrast: ', style: const TextStyle(fontWeight: FontWeight.bold)),
-                                TextSpan(text: gif.contrast.toStringAsFixed(2)),
-                                if (gif.types.isNotEmpty) ...[
-                                  TextSpan(text: '\nTypes: ', style: const TextStyle(fontWeight: FontWeight.bold)),
-                                  TextSpan(text: gif.types.join(", ")),
-                                ],
+                        bottom: 12,
+                        left: 12,
+                        right: 12,
+                        child: AnimatedOpacity(
+                          duration: const Duration(milliseconds: 100),
+                          opacity: hoveredIndex == index ? 1.0 : 0.0,
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.surface,
+                              borderRadius: BorderRadius.circular(8),
+                              boxShadow: [
+                                BoxShadow(color: Colors.black.withValues(alpha: 0.3), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 2)),
                               ],
                             ),
-                            style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
-                            maxLines: 4,
-                            overflow: TextOverflow.ellipsis,
+                            constraints: BoxConstraints(maxHeight: 100),
+                            child: Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(text: 'Background: ', style: const TextStyle(fontWeight: FontWeight.bold)),
+                                  TextSpan(text: '${gif.bgColor}\n'),
+                                  TextSpan(text: 'Text: ', style: const TextStyle(fontWeight: FontWeight.bold)),
+                                  TextSpan(text: '${gif.textColor}\n'),
+                                  TextSpan(text: 'Contrast: ', style: const TextStyle(fontWeight: FontWeight.bold)),
+                                  TextSpan(text: gif.contrast.toStringAsFixed(2)),
+                                  if (gif.types.isNotEmpty) ...[
+                                    TextSpan(text: '\nTypes: ', style: const TextStyle(fontWeight: FontWeight.bold)),
+                                    TextSpan(text: gif.types.join(", ")),
+                                  ],
+                                ],
+                              ),
+                              style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+                            ),
                           ),
                         ),
                       ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             );
