@@ -152,7 +152,7 @@ class GifGalleryPageState extends State<GifGalleryPage> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    launchUrl(Uri.parse('https://github.com/joanroig/metrix-gallery'));
+                    launchUrl(Uri.parse('https://github.com/joanroig/metrix-gallery?tab=readme-ov-file#metrix-gallery'));
                   },
                   child: AnimatedSwitcher(
                     duration: Duration(milliseconds: 100),
@@ -184,9 +184,25 @@ class GifGalleryPageState extends State<GifGalleryPage> {
                 Spacer(),
                 IconButton(
                   icon: Icon(Icons.code_sharp),
-                  tooltip: 'Metrix Repository',
-                  onPressed: () {
-                    launchUrl(Uri.parse('https://github.com/joanroig/metrix?tab=readme-ov-file#metrix'));
+                  tooltip: 'Repositories',
+                  onPressed: () async {
+                    await showMenu<String>(
+                      context: context,
+                      position: RelativeRect.fromLTRB(1000, 56, 0, 0),
+                      items: [
+                        PopupMenuItem(value: 'metrix', child: Row(children: [Icon(Icons.code_sharp), SizedBox(width: 8), Text('Metrix Repository')])),
+                        PopupMenuItem(
+                          value: 'gallery',
+                          child: Row(children: [Icon(Icons.photo_library_sharp), SizedBox(width: 8), Text('Metrix Gallery Repository')]),
+                        ),
+                      ],
+                    ).then((value) {
+                      if (value == 'metrix') {
+                        launchUrl(Uri.parse('https://github.com/joanroig/metrix?tab=readme-ov-file#metrix'));
+                      } else if (value == 'gallery') {
+                        launchUrl(Uri.parse('https://github.com/joanroig/metrix-gallery?tab=readme-ov-file#metrix-gallery'));
+                      }
+                    });
                   },
                 ),
                 IconButton(

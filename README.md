@@ -14,9 +14,14 @@
 
 ## Features
 
-- Interactive gallery to explore over 20.000 color combinations.
+- Interactive gallery to explore the complete collection of 21,761 CSS color combinations.
 - Easy-to-use interface built with Flutter.
 - Fully responsive design for desktop and mobile.
+- Advanced filtering options:
+  - Filter by background or text color
+  - Filter by type of color combination
+  - Sort by contrast ratio, alphabetical order, or random
+  - Set minimum and maximum contrast ratio requirements
 
 ## Usage Guide
 
@@ -47,6 +52,11 @@ Still don't have one? Follow the complete [Metrix setup](https://github.com/joan
    ```bash
    flutter run
    ```
+
+### Troubleshooting
+
+- If you encounter build errors, try running `flutter clean` followed by `flutter pub get`
+- For platform-specific issues, refer to the [Flutter documentation](https://flutter.dev/docs)
 
 ## Credits
 
