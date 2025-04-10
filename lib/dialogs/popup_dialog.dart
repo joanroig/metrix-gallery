@@ -70,7 +70,7 @@ class PopupDialog {
                                 padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(color: Theme.of(context).colorScheme.surface, borderRadius: BorderRadius.circular(8)),
                                 child: SelectableText(
-                                  'TEXT_COLOR: \'$textColor\'\nBACKGROUND_COLOR: \'$bgColor\'',
+                                  'BACKGROUND_COLOR: \'$bgColor\'\nTEXT_COLOR: \'$textColor\'',
                                   style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
                                 ),
                               ),
@@ -133,7 +133,7 @@ class PopupDialog {
                                   padding: const EdgeInsets.all(8),
                                   decoration: BoxDecoration(color: Theme.of(context).colorScheme.surface, borderRadius: BorderRadius.circular(8)),
                                   child: SelectableText(
-                                    'TEXT_COLOR: \'$textColor\'\nBACKGROUND_COLOR: \'$bgColor\'',
+                                    'BACKGROUND_COLOR: \'$bgColor\'\nTEXT_COLOR: \'$textColor\'',
                                     style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
                                   ),
                                 ),
@@ -161,7 +161,7 @@ class PopupDialog {
                             constraints: BoxConstraints(minWidth: 170, maxWidth: 200),
                             child: ElevatedButton(
                               onPressed: () {
-                                final textToCopy = 'TEXT_COLOR: \'$textColor\'\nBACKGROUND_COLOR: \'$bgColor\'';
+                                final textToCopy = 'BACKGROUND_COLOR: \'$bgColor\'\nTEXT_COLOR: \'$textColor\'';
                                 Clipboard.setData(ClipboardData(text: textToCopy));
                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Metrix colors copied to clipboard!')));
                                 Navigator.of(context).pop();
@@ -192,7 +192,7 @@ class PopupDialog {
                             constraints: BoxConstraints(minWidth: 170, maxWidth: 200),
                             child: ElevatedButton(
                               onPressed: () {
-                                final textToCopy = 'TEXT_COLOR: \'$textColor\'\nBACKGROUND_COLOR: \'$bgColor\'';
+                                final textToCopy = 'BACKGROUND_COLOR: \'$bgColor\'\nTEXT_COLOR: \'$textColor\'';
                                 Clipboard.setData(ClipboardData(text: textToCopy));
                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Metrix colors copied to clipboard!')));
                                 Navigator.of(context).pop();
