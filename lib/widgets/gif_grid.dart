@@ -23,7 +23,7 @@ class GifGridState extends State<GifGrid> {
 
   @override
   Widget build(BuildContext context) {
-    final aspectRatio = 622 / 356;
+    final aspectRatio = 16 / 9;
     return GridView.builder(
       itemCount: widget.gifs.length,
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
