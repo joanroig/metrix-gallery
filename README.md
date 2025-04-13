@@ -14,7 +14,7 @@
 
 ## Features
 
-- Interactive gallery to explore the complete collection of 21,761 CSS color combinations.
+- Interactive gallery to explore the complete collection of 21,756 CSS color combinations.
 - Easy-to-use interface built with Flutter.
 - Fully responsive design for desktop and mobile.
 - Advanced filtering options:
