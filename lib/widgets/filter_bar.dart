@@ -283,7 +283,18 @@ class FilterBarState extends State<FilterBar> {
               min: 1.00,
               max: 21.00,
               values: RangeValues(widget.minContrast, widget.maxContrast),
-              onChanged: widget.onContrastChanged,
+              onChanged: (RangeValues values) {
+                // Validate values to ensure they stay within bounds
+                double start = values.start.clamp(1.00, 21.00);
+                double end = values.end.clamp(1.00, 21.00);
+
+                // Ensure start is never greater than end
+                if (start > end) {
+                  start = end;
+                }
+
+                widget.onContrastChanged(RangeValues(start, end));
+              },
             ),
           ),
           SizedBox(width: 8),
